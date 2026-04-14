@@ -520,7 +520,7 @@ with tab3:
             rc2.metric("🛡️ Stop Loss (ATR Guard)", f"₹{stop_loss_price:.2f}", f"-₹{total_risk:.2f} Maximum Risk", delta_color="inverse")
             risk_reward = total_profit / total_risk if total_risk > 0 else 0
             rc3.metric("⚖️ Risk/Reward Ratio", f"1 : {risk_reward:.2f}")
-            else:
+    else:
             rc1.metric("📉 Live Forecast", f"₹{c_forecast:.2f}", "Bearish/Dropping", delta_color="inverse")
             with col1: # Puts a nice red warning box near the top
                 st.error("⚠️ The Live Curve is currently projecting a price drop. The long-position calculator is locked until bullish momentum returns.")
