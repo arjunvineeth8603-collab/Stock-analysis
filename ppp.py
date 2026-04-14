@@ -509,12 +509,9 @@ with tab3:
             st.write("No historical buy signals found in the current timeframe.")
     else:
         st.warning("⏳ Waiting for live market data to generate the calculator and simulation...")
-
-    # --- 3. MANDATORY RISK DISCLAIMER ---
-    st.markdown("---")
-    st.caption("⚠️ **PLATFORM DISCLAIMER:** Algorithmic forecasting relies on historical data probabilities, not certainties. Financial markets are subject to extreme volatility, sudden news events, and systemic risks. This platform provides quantitative confluence tracking, NOT financial advice. Past performance and theoretical 'What If' margins guarantee no future results. You must strictly manage your own risk (using ATR Stop Losses) and consult a registered financial advisor before executing real capital trades. Trading equities algorithmically carries a high risk of capital loss.")
   
     rc1, rc2, rc3 = st.columns(3)
+  
     if c_forecast > c_price:
             rc1.metric("🎯 Target Price (Curve)", f"₹{c_forecast:.2f}", f"+₹{total_profit:.2f} Potential Profit")
             rc2.metric("🛡️ Stop Loss (ATR Guard)", f"₹{stop_loss_price:.2f}", f"-₹{total_risk:.2f} Maximum Risk", delta_color="inverse")
@@ -769,3 +766,7 @@ if data is not None:
 
 else:
     st.error("Could not fetch data. Please check the ticker symbol.")
+
+  # --- 3. MANDATORY RISK DISCLAIMER ---
+    st.markdown("---")
+    st.caption("⚠️ **PLATFORM DISCLAIMER:** Algorithmic forecasting relies on historical data probabilities, not certainties. Financial markets are subject to extreme volatility, sudden news events, and systemic risks. This platform provides quantitative confluence tracking, NOT financial advice. Past performance and theoretical 'What If' margins guarantee no future results. You must strictly manage your own risk (using ATR Stop Losses) and consult a registered financial advisor before executing real capital trades. Trading equities algorithmically carries a high risk of capital loss.")
