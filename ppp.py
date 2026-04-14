@@ -513,17 +513,14 @@ with tab3:
     # --- 3. MANDATORY RISK DISCLAIMER ---
     st.markdown("---")
     st.caption("⚠️ **PLATFORM DISCLAIMER:** Algorithmic forecasting relies on historical data probabilities, not certainties. Financial markets are subject to extreme volatility, sudden news events, and systemic risks. This platform provides quantitative confluence tracking, NOT financial advice. Past performance and theoretical 'What If' margins guarantee no future results. You must strictly manage your own risk (using ATR Stop Losses) and consult a registered financial advisor before executing real capital trades. Trading equities algorithmically carries a high risk of capital loss.")
-
-rc1, rc2, rc3 = st.columns(3)
-        
-        # UI FIX: Only show the full calculator if the Live Forecast is going UP
-if c_forecast > c_price:
+  
+            rc1, rc2, rc3 = st.columns(3)
+            if c_forecast > c_price:
             rc1.metric("🎯 Target Price (Curve)", f"₹{c_forecast:.2f}", f"+₹{total_profit:.2f} Potential Profit")
             rc2.metric("🛡️ Stop Loss (ATR Guard)", f"₹{stop_loss_price:.2f}", f"-₹{total_risk:.2f} Maximum Risk", delta_color="inverse")
             risk_reward = total_profit / total_risk if total_risk > 0 else 0
             rc3.metric("⚖️ Risk/Reward Ratio", f"1 : {risk_reward:.2f}")
-else:
-            # If the forecast is dropping, show a clear warning instead of negative profits!
+            else:
             rc1.metric("📉 Live Forecast", f"₹{c_forecast:.2f}", "Bearish/Dropping", delta_color="inverse")
             with col1: # Puts a nice red warning box near the top
                 st.error("⚠️ The Live Curve is currently projecting a price drop. The long-position calculator is locked until bullish momentum returns.")
