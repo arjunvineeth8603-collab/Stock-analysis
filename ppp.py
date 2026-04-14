@@ -513,13 +513,7 @@ with tab3:
     # --- 3. MANDATORY RISK DISCLAIMER ---
     st.markdown("---")
     st.caption("⚠️ **PLATFORM DISCLAIMER:** Algorithmic forecasting relies on historical data probabilities, not certainties. Financial markets are subject to extreme volatility, sudden news events, and systemic risks. This platform provides quantitative confluence tracking, NOT financial advice. Past performance and theoretical 'What If' margins guarantee no future results. You must strictly manage your own risk (using ATR Stop Losses) and consult a registered financial advisor before executing real capital trades. Trading equities algorithmically carries a high risk of capital loss.")
-    profit_per_share = c_forecast - c_price
-    total_profit = shares * profit_per_share
-        
-    stop_loss_price = c_price - (c_atr * 1.5)
-    loss_per_share = c_price - stop_loss_price
-    total_risk = shares * loss_per_share
-        
+
 rc1, rc2, rc3 = st.columns(3)
         
         # UI FIX: Only show the full calculator if the Live Forecast is going UP
