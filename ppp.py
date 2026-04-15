@@ -513,6 +513,8 @@ with tab3:
 
 
     # --- 4. YOUR EXACT CORE MATH ---
+
+if data is not None:
     daily_returns = data['Close'].pct_change()
     rolling_mean = daily_returns.rolling(window=50).mean()
     rolling_std = daily_returns.rolling(window=50).std()
