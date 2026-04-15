@@ -389,14 +389,18 @@ with tab3:
         total_risk = shares * loss_per_share
         
         rc1, rc2, rc3 = st.columns(3)
-        rc1.metric("🎯 Target Price (Curve)", f"₹{c_forecast:.2f}", f"+₹{total_profit:.2f} Potential Profit")
         
+        # UI FIX: Only show the full calculator if the Live Forecast is going UP
         if c_forecast > c_price:
+            rc1.metric("🎯 Target Price (Curve)", f"₹{c_forecast:.2f}", f"+₹{total_profit:.2f} Potential Profit")
             rc2.metric("🛡️ Stop Loss (ATR Guard)", f"₹{stop_loss_price:.2f}", f"-₹{total_risk:.2f} Maximum Risk", delta_color="inverse")
             risk_reward = total_profit / total_risk if total_risk > 0 else 0
             rc3.metric("⚖️ Risk/Reward Ratio", f"1 : {risk_reward:.2f}")
         else:
-            st.warning("The Curve is forecasting a drop. Calculator is disabled for bearish setups.")
+            # If the forecast is dropping, show a clear warning instead of negative profits!
+            rc1.metric("📉 Live Forecast", f"₹{c_forecast:.2f}", "Bearish/Dropping", delta_color="inverse")
+            with col1: 
+                st.error("⚠️ The Live Curve is currently projecting a price drop. The long-position calculator is locked until bullish momentum returns.")
 
         # --- 2. THE VISUAL FOMO ENGINE & TROPHY CHART ---
         st.markdown("---")
@@ -506,41 +510,8 @@ with tab3:
             st.write("No historical buy signals found in the current timeframe.")
     else:
         st.warning("⏳ Waiting for live market data to generate the calculator and simulation...")
-  
-  # ... (This is inside Tab 3) ...
-        stop_loss_price = c_price - (c_atr * 1.5)
-        loss_per_share = c_price - stop_loss_price
-        total_risk = shares * loss_per_share
-        
-        # ---> PASTE THIS BLOCK RIGHT HERE <---
-        rc1, rc2, rc3 = st.columns(3)
-        
-        # UI FIX: Only show the full calculator if the Live Forecast is going UP
-        if c_forecast > c_price:
-            rc1.metric("🎯 Target Price (Curve)", f"₹{c_forecast:.2f}", f"+₹{total_profit:.2f} Potential Profit")
-            rc2.metric("🛡️ Stop Loss (ATR Guard)", f"₹{stop_loss_price:.2f}", f"-₹{total_risk:.2f} Maximum Risk", delta_color="inverse")
-            risk_reward = total_profit / total_risk if total_risk > 0 else 0
-            rc3.metric("⚖️ Risk/Reward Ratio", f"1 : {risk_reward:.2f}")
-        else:
-            # If the forecast is dropping, show a clear warning instead of negative profits!
-            rc1.metric("📉 Live Forecast", f"₹{c_forecast:.2f}", "Bearish/Dropping", delta_color="inverse")
-            with col1: 
-                st.error("⚠️ The Live Curve is currently projecting a price drop. The long-position calculator is locked until bullish momentum returns.")
 
-@st.cache_data
-def get_data(ticker_symbol):
-    raw = yf.download(ticker_symbol, period='2y')
-    if raw.empty: return None
-    
-    df = pd.DataFrame()
-    df['Close'] = raw['Close'].squeeze()
-    df['High'] = raw['High'].squeeze()
-    df['Low'] = raw['Low'].squeeze()
-    return df
 
-data = get_data(ticker)
-
-if data is not None:
     # --- 4. YOUR EXACT CORE MATH ---
     daily_returns = data['Close'].pct_change()
     rolling_mean = daily_returns.rolling(window=50).mean()
