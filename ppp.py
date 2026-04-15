@@ -741,7 +741,7 @@ with tab3:
         # Display the dataframe in the dashboard
         st.dataframe(comparison_df[['Close', 'Raw_Decision', 'Net_Decision', 'Safety_Status']].sort_index(ascending=False))
 
-   else:
+else:
     st.error("Could not fetch data. Please check the ticker symbol.")
 
   # --- 3. MANDATORY RISK DISCLAIMER ---
